@@ -26,7 +26,6 @@ exports.seed = knex => {
       return Promise.all(
         removeIngredientsDupes().reduce((ingredPromises, ingred) => {
           ingredPromises.push(newIngredient(knex, ingred));
-          console.log(ingredPromises.length)
           return ingredPromises;
         }, [])
       );
