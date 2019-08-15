@@ -1,16 +1,5 @@
 const burgers = require('../burgers');
 
-// const allIngredients = () => {
-//   return burgers.reduce((allIngr, burger) => {
-//     burger.ingredients.forEach(ingredient => {
-//       allIngr.push(ingredient);
-//     });
-//     return allIngr;
-//   }, []);
-// };
-
-// const removeIngredientsDupes = [...new Set(allIngredients())];
-
 const createBurger = (knex, burger) => {
   return knex('burgers')
     .insert(
@@ -24,26 +13,32 @@ const createBurger = (knex, burger) => {
     )
     .then(burger_id => {
       let ingredientPromises = [];
-      removeIngredientsDupes.forEach((ingredient, burger_id) => {
+      burger.ingredients.forEach(ingredient => {
         ingredientPromises.push(
-          createIngredient(knex, ingredient)
+          createIngredient(knex, ingredient).then(ingredients_id => {
+            let joinPromises = [];
+            joinPromises.push(createJoin(knex, burger_id, ingredients_id));
+            return Promise.all(joinPromises);
+          })
         );
       });
-
       return Promise.all(ingredientPromises);
     });
 };
 
 const createIngredient = (knex, ingredient) => {
-  return knex('ingredients').insert({
-    name: ingredient
-  }, 'id');
+  return knex('ingredients').insert(
+    {
+      name: ingredient
+    },
+    'id'
+  );
 };
 
 const createJoin = (knex, burger_id, ingredients_id) => {
   return knex('burger_ingredients').insert({
-    burger_id,
-    ingredients_id
+    burger_id: parseInt(burger_id),
+    ingredients_id: parseInt(ingredients_id)
   });
 };
 
