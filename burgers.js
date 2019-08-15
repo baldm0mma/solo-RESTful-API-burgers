@@ -210,3 +210,5 @@ const burgers = [
     tastiness_level: 7
   }
 ]
+
+module.exports = burgers;
