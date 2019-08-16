@@ -3,9 +3,11 @@ const dbConnection = require('./connection');
 const PORT = process.env.PORT || 3000;
 const app = express();
 
+const categories = ['id', 'name', 'image', 'tastiness_level', 'description'];
+
 app.get('/api/v1/burgers', (req, res) => {
   dbConnection('burgers')
-    .select('*')
+    .select(...categories)
     .then(burgers => res.status(200).json({ burgers }))
     .catch(error => res.json('Could not retrieve all burgers'));
 });
@@ -39,7 +41,7 @@ app.get('/api/v1/burgers/:id/recipe', (req, res) => {
     .then(burger => recipe.burger = burger[0])
     .then(dbConnection('burger_ingredients')
       .where('burger_id', id)
-      .then(b => b.map(el => recipe.ingredients.push(el.ingredients_id)))
+      .then(burgerIngredients => burgerIngredients.map(el => recipe.ingredients.push(el.ingredients_id)))
       .then(parsed => res.status(200).json(recipe)))
       .catch(error => res.json('Could not retrieve recipe'));
 });
