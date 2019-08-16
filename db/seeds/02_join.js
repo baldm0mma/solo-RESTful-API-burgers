@@ -1,4 +1,4 @@
-const burgers = require('../burgers');
+const burgers = require('../../burgers');
 
 const createBurger = (knex, burger) => {
   return knex('burgers')
