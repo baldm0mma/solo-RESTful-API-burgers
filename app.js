@@ -49,22 +49,22 @@ app.get('/api/v1/burgers/:id/recipe', (req, res) => {
 app.listen(PORT, () => console.log('App is running!'));
 
 
-app.get('/api/v1/burgers/:id/recipe', (req, res) => {
-  const { id } = req.params;
-  let recipe = {
-    burger: null,
-    ingredients: []
-  }
-  dbConnection('burgers')
-    .select(...categories)
-    .where({ id })
-    .then(burger => recipe.burger = burger[0])
-    .then(dbConnection('burger_ingredients')
-      .where('burger_id', id)
-      .then(burgerIngredients => burgerIngredients.map(el => dbConnection('ingredients')
-        .select('name')
-        .where('id', el)
-        .then(ingredient => recipe.ingredients.push(ingredient))))
-        .then(parsed => res.status(200).json(recipe)))
-        .catch(error => res.json('Could not retrieve recipe'));
-});
+// app.get('/api/v1/burgers/:id/recipe', (req, res) => {
+//   const { id } = req.params;
+//   let recipe = {
+//     burger: null,
+//     ingredients: []
+//   }
+//   dbConnection('burgers')
+//     .select(...categories)
+//     .where({ id })
+//     .then(burger => recipe.burger = burger[0])
+//     .then(dbConnection('burger_ingredients')
+//       .where('burger_id', id)
+//       .then(burgerIngredients => burgerIngredients.map(el => dbConnection('ingredients')
+//         .select('name')
+//         .where('id', el)
+//         .then(ingredient => recipe.ingredients.push(ingredient))))
+//         .then(parsed => res.status(200).json(recipe)))
+//         .catch(error => res.json('Could not retrieve recipe'));
+// });
