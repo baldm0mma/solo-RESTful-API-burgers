@@ -14,7 +14,7 @@ app.get('/api/v1/burgers', (req, res) => {
 
 app.get('/api/v1/burgers/allIngredients', (req, res) => {
   dbConnection('ingredients')
-    .select('*')
+    .select(...categories)
     .then(ingredients => res.status(200).json({ ingredients }))
     .catch(error => res.json('Could not retrieve all ingredients'));
 });
@@ -22,7 +22,7 @@ app.get('/api/v1/burgers/allIngredients', (req, res) => {
 app.get('/api/v1/burgers/:id', (req, res) => {
   const { id } = req.params;
   dbConnection('burgers')
-    .select('*')
+    .select(...categories)
     .where({ id })
     .then(burger => res.status(200).json(burger[0]))
     .catch(error => res.json('Could not retrieve burger'));
@@ -36,7 +36,7 @@ app.get('/api/v1/burgers/:id/recipe', (req, res) => {
   }
   let codes = []
   dbConnection('burgers')
-    .select('*')
+    .select(...categories)
     .where({ id })
     .then(burger => recipe.burger = burger[0])
     .then(dbConnection('burger_ingredients')
