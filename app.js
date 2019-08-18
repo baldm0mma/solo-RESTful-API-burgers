@@ -30,6 +30,15 @@ app.get('/api/v1/burgers/:id', (req, res) => {
     .catch(error => res.status(404).json('Could not retrieve burger'));
 });
 
+app.get('/api/v1/burgers/allIngredients/:id', (req, res) => {
+  const { id } = req.params;
+  dbConnection('ingredients')
+    .select('name', 'id')
+    .where({ id })
+    .then(ingredient => res.status(200).json(ingredient[0]))
+    .catch(error => res.status(404).json('Could not retrieve ingredient'));
+});
+
 app.get('/api/v1/burgers/:id/recipe', (req, res) => {
   const { id } = req.params;
   const rawQuery = `SELECT b.id, b.name AS burger, b.image, b.tastiness_level, b.description, json_agg(i.name) AS ingredients
@@ -71,10 +80,6 @@ app.post('/api/v1/burgers', (req, res) => {
 app.post('/api/v1/burgers/:id/recipe', (req, res) => {
   const { id } = req.params;
   const newIngredient = req.body.ingredient;
-  const happyPath = {
-    burger_id: id,
-    ingredients_id: null
-  };
   if (!newIngredient) {
     return res.status(422).send({
       error: 'Please enter a valid ingredient'
@@ -94,11 +99,18 @@ app.post('/api/v1/burgers/:id/recipe', (req, res) => {
 
 app.delete('/api/v1/burgers/:id', (req, res) => {
   const { id } = req.params;
-  dbConnection('burgers')
-    .where({id})
+  dbConnection('burger_ingredients')
+    .where({ burger_id: id })
     .del()
-    .then(() => res.status(204).json('Successfully deleted burger'))
-    .catch(error => res.status(500).json('Cannot remove burger at this time'));
+    .then(() =>
+      dbConnection('burgers')
+        .where({ id })
+        .del()
+        .then(() => res.status(204).json('Successfully deleted burger'))
+        .catch(error =>
+          res.status(500).json('Cannot remove burger at this time')
+        )
+    );
 });
 
 app.listen(PORT, () => console.log('App is running!'));
