@@ -43,10 +43,10 @@ const createJoin = (knex, burger_id, ingredients_id) => {
 };
 
 exports.seed = knex => {
-  return knex('burgers')
+  return knex('burger_ingredients')
     .del()
     .then(() => knex('ingredients').del())
-    .then(() => knex('burger_ingredients').del())
+    .then(() => knex('burgers').del())
     .then(() => {
       let burgerPromises = [];
       burgers.forEach(burger => {

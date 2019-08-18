@@ -25,8 +25,7 @@ KNEX - This was my first attempt at creating a database from scratch; so the lea
 * Knex.js
 * SQL
 * PostgreSQL
-* NPM
-* Git and GitHub
+* Git/GitHub
 
 ## Project Management
 
