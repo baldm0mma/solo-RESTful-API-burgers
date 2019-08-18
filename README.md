@@ -16,6 +16,7 @@ KNEX - This was my first attempt at creating a database from scratch; so the lea
 
 * Refactor the endpoints to be pure SQL.
 * Build a fun FE for it!
+* There is a branch entitled 'articulation' that is annotated on every line of my code from the app.js for some idea of what I was thinking.
 
 ## Project Tech Emphasis
 
@@ -31,11 +32,11 @@ KNEX - This was my first attempt at creating a database from scratch; so the lea
 
 I used GitHub issues to manage workflow.
 
-### Schema
+## Schema
 
 ![Schema](assets/SQL_Schema.png)
 
-### Endpoints
+## Endpoints
 
 | url | verb | options | sample response |
 | ----|------|---------|---------------- |
