@@ -13,7 +13,7 @@ const app = express();
 // This gives me the abilty to stringify and parse json data
 app.use(express.json());
 
-// This variable is used in a number of my endpoints to get back the data I'm loong for
+// This variable is used in a number of my endpoints to get back the data I'm looking for
 const categories = ['id', 'name', 'image', 'tastiness_level', 'description'];
 
 // This endpoint returns and array of all burgers without thier respective ingredients
